@@ -1,0 +1,21 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/master}">
+<head>
+    <title>View Customer</title>
+
+    <link rel="stylesheet" th:href="@{/resources/bootstrap-5.3.3-dist/css/bootstrap.min.css}">
+</head>
+<body>
+    <div layout:fragment="content">
+        <h1>View customer</h1>
+        <!--/*@thymesVar id="customer" type="com.tom.javaspring.entity.Customer"*/-->
+        <p th:text="${customer.firstName}"></p>
+        <p th:text="${customer.lastName}"></p>
+        <p th:text="${customer.email}"></p>
+        <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-secondary mt-4" style="width: 30%;"><a th:href="@{/customer/list}" class="text-decoration-none text-white">Back to list</a></button>
+        </div>
+    </div>
+</body>
+</html>
