@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="INFO">
     <Properties>
         <Property name="log-path">D:\TranPhatDat\Java2\java-spring\src\main\java\com\tom\javaspring</Property>
     </Properties>
 
     <Appenders>
-        <File name="FileAppender" fileName="${log-path}/application-${date:yyyyMMdd}.log" append="true" immediateFlush="false">
+        <File name="FileAppender" fileName="${log-path}/application-${date:yyyyMMdd}.log"
+              append="true" immediateFlush="false">
             <PatternLayout pattern="${log-path}/%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </File>
-
         <Console name="ConsoleAppender" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
@@ -16,9 +16,11 @@
 
     <Loggers>
         <Root level="info">
-            <AppenderRef ref="FileAppender"/>
-            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="FileAppender" />
+            <AppenderRef ref="ConsoleAppender" />
         </Root>
     </Loggers>
 
 </Configuration>
+
+
