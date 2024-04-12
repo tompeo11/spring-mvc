@@ -1,5 +1,6 @@
 package com.tom.javaspring.controller;
 
+import com.tom.javaspring.constant.CustomerSortColumn;
 import com.tom.javaspring.dto.CustomerParams;
 import com.tom.javaspring.entity.Customer;
 import com.tom.javaspring.service.CustomerService;
@@ -31,6 +32,8 @@ public class CustomerController {
         theModel.addAttribute("totalCount", customersCount);
         theModel.addAttribute("totalPages", totalPages);
         theModel.addAttribute("customers", theCustomers);
+
+        theModel.addAttribute("customerSortColumn", CustomerSortColumn.class);
 
         return "/customer/list_customer";
     }

@@ -26,9 +26,20 @@
         <thead>
         <tr class="col justify-content-between">
             <th class="col-1" scope="col">#</th>
-            <th class="col-2" scope="col">First</th>
-            <th class="col-2" scope="col">Last</th>
-            <th class="col-4" scope="col">Email</th>
+            <!--/*@thymesVar id="customerSortColumn" type="com.tom.javaspring.constant.CustomerSortColumn"*/-->
+            <th class="col-2" scope="col">
+                <a th:href="@{list(sort=${customerSortColumn.First_Name})}"
+                    th:classappend="${param.sort == 'firstName'} ? 'text-success' : 'text-dark'"
+                    class="text-decoration-none">First
+                </a>
+            </th>
+
+            <th class="col-2" scope="col">
+                <a th:href="@{list(sort=${customerSortColumn.Last_Name})}" class="text-success">Last</a>
+            </th>
+            <th class="col-4" scope="col">
+                <a th:href="@{list(sort=${customerSortColumn.Email})}" class="text-decoration-none">Email</a>
+            </th>
             <th class="col-3" scope="col">Actions</th>
         </tr>
         </thead>

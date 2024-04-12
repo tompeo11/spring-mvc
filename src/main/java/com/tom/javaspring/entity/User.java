@@ -37,5 +37,5 @@ public class User {
 
     @Column(name="enabled")
     @NotEmpty(message = "Enabled is required")
-    private int enabled;
+    private boolean enabled;
 }

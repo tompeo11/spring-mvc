@@ -1,5 +1,6 @@
 package com.tom.javaspring.dao.impl;
 
+import com.tom.javaspring.constant.CustomerSortColumn;
 import com.tom.javaspring.dao.CustomerDAO;
 import com.tom.javaspring.dto.CustomerParams;
 import com.tom.javaspring.entity.Customer;
@@ -32,35 +33,23 @@ public class CustomerDAOImpl implements CustomerDAO {
         CriteriaQuery<Customer> query = builder.createQuery(Customer.class);
         Root<Customer> root = query.from(Customer.class);
 
-        // Tạo danh sách Predicate để thêm điều kiện
-        List<Predicate> predicates = new ArrayList<>();
-
         if (search != null && !search.trim().isEmpty()) {
-            Predicate firstNamePredicate = builder.like(
-                    builder.lower(root.get("firstName")), "%" + search.toLowerCase() + "%"
+            query.where(builder.or(
+                    builder.like(builder.lower(root.get("firstName")), "%" + search.toLowerCase() + "%"),
+                    builder.like(builder.lower(root.get("lastName")), "%" + search.toLowerCase() + "%")
+                )
             );
-            Predicate lastNamePredicate = builder.like(
-                    builder.lower(root.get("lastName")), "%" + search.toLowerCase() + "%"
-            );
-
-            predicates.add(builder.or(firstNamePredicate, lastNamePredicate));
         }
-
-        // Thêm tất cả các điều kiện vào CriteriaQuery
-        query.where(predicates.toArray(new Predicate[0]));
 
         if (sort != null && !sort.isEmpty()) {
             switch (sort) {
-                case "firstNameDesc":
+                case CustomerSortColumn.First_Name:
                     query.orderBy(builder.asc(root.get("firstName")));
                     break;
-                case "lastNameAsc":
-                    query.orderBy(builder.desc(root.get("lastName")));
+                case CustomerSortColumn.Last_Name:
+                    query.orderBy(builder.asc(root.get("lastName")));
                     break;
-                case "emailAsc":
-                    query.orderBy(builder.desc(root.get("email")));
-                    break;
-                case "emailDesc":
+                case CustomerSortColumn.Email:
                     query.orderBy(builder.asc(root.get("email")));
                     break;
                 default:
