@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
     @GetMapping("/")
     public String showMyLoginPage() {
-        return "/layout/master";
+        return "need_admin_role";
     }
 
     @GetMapping("/unauthorized")

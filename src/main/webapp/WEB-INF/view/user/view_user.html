@@ -1,0 +1,20 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/master}">
+<head>
+    <title>View user</title>
+
+    <link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}">
+</head>
+<body>
+    <div layout:fragment="content">
+        <h1>View user</h1>
+        <!--/*@thymesVar id="user" type="com.tom.javaspring.entity.UserEntity"*/-->
+        <p th:text="${user.userName}">
+        <p th:text="${user.enabled}"></p>
+        <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-secondary mt-4" style="width: 30%;"><a th:href="@{/user/list}" class="text-decoration-none text-white">Back to list</a></button>
+        </div>
+    </div>
+</body>
+</html>

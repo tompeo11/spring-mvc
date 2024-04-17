@@ -1,41 +1,50 @@
-package com.tom.javaspring.config;
+package com.tom.javaspring.security;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final CustomUserDetailsService customUserDetailsService;
+
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
+        this.customUserDetailsService = customUserDetailsService;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        User.UserBuilder users = User.withDefaultPasswordEncoder();
-        auth.inMemoryAuthentication()
-                .withUser(users.username("admin").password("admin").roles("MANAGER"))
-                .withUser(users.username("user").password("user").roles("EMPLOYEE"));
+        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/resources/**").permitAll()
-                    .antMatchers("/admin/**").hasRole("MANAGER")
+                    .antMatchers("/register/**").permitAll()
+                    .antMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
                     .loginPage("/showLoginPage")
                     .loginProcessingUrl("/login")
-                    .permitAll()
+                    .failureUrl("/showLoginPage?error=true").permitAll()
                 .and()
-                    .logout()
-                    .permitAll()
+                    .logout().permitAll()
                 .and()
-                    .exceptionHandling().accessDeniedPage("/unauthorized");
+                    .exceptionHandling().accessDeniedPage("/admin/unauthorized");
+    }
+
+    @Bean
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
