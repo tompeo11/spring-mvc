@@ -8,6 +8,9 @@ import java.util.List;
 public interface UserService {
     List<UserEntity> getUsers(UserParams userParams);
 
+    UserEntity getByEmail(String email);
+    UserEntity getByName(String name);
+
     int getUserCount(UserParams userParams);
 
     void saveUser(UserEntity userEntity);

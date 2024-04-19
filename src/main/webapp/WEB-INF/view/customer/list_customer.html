@@ -108,7 +108,7 @@
         </nav>
     </div>
 
-    <form id="deleteForm" method="post"></form>
+    <form id="deleteForm" method="post" th:action="@{/customer/delete/}"></form>
 
 </div>
 <script th:if="${message != null}" th:inline="javascript" layout:fragment="notify">

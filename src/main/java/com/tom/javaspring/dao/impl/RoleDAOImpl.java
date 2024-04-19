@@ -13,6 +13,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,5 +120,15 @@ public class RoleDAOImpl implements RoleDAO {
         Query<Role> theQuery = currentSession.createQuery("delete from Role where id = :id");
         theQuery.setParameter("id", id);
         theQuery.executeUpdate();
+    }
+
+    @Override
+    @Transactional
+    public Role findByName(String name) {
+        Session currentSession = sessionFactory.getCurrentSession();
+
+        Query<Role> theQuery = currentSession.createQuery("from Role where name = :name");
+        theQuery.setParameter("name", name);
+        return  theQuery.getSingleResult();
     }
 }

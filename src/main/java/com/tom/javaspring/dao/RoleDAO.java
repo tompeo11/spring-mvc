@@ -15,4 +15,6 @@ public interface RoleDAO {
     Role getById(int id);
 
     void deleteRole(int id);
+
+    Role findByName(String name);
 }

@@ -1,5 +1,6 @@
 package com.tom.javaspring.entity;
 
+import com.tom.javaspring.validation.ValidEmail;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,22 +24,16 @@ public class UserEntity {
     private int id;
 
     @Column(name="username", length = 50)
-    @NotEmpty(message = "Username is required")
-    @Size(min = 2, max = 50, message = "Username must be between 2 and 50 characters")
     private String userName;
 
     @Column(name="password", length = 68)
-    @NotEmpty(message = "Password is required")
-    @Size(min = 2, max = 68, message = "Password must be between 2 and 68 characters")
     private String password;
 
     @Column(name="email", length = 250)
-    @Email(message = "Invalid email format")
     private String email;
 
-    @Column(name="enabled")
-    @NotEmpty(message = "Enabled is required")
-    private String enabled;
+
+    private boolean enabled = true;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",

@@ -12,6 +12,6 @@ public interface UserDAO {
 
     UserEntity getById(int id);
     void deleteUser(int id);
-    public UserEntity findByUserName(String userName);
-    public UserEntity findByEmail(String email);
+    UserEntity findByUserName(String userName);
+    UserEntity findByEmail(String email);
 }
