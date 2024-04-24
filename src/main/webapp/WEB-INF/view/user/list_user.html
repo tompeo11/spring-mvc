@@ -12,23 +12,38 @@
 <div layout:fragment="content">
     <div class="d-flex justify-content-between">
         <!--/*@thymesVar id="userParams" type="com.tom.javaspring.dto.UserParams"*/-->
-        <form class="d-flex form-inline mr-auto my-2 my-md-0 mw-100 navbar-search" id="searchForm" th:object="${userParams}">
+        <form class="d-flex form-inline mr-auto my-2 my-md-0 mw-100 navbar-search" id="searchForm"
+              th:object="${userParams}">
             <div class="input-group mr-3">
-                <input type="text" name="search" class="form-control small" placeholder="Search for..." th:field="*{search}">
+                <input type="text" name="search" class="form-control small" placeholder="Search for..."
+                       th:field="*{search}">
             </div>
 
-            <a th:if="${!#strings.isEmpty(param.search) and #strings.length(param.search) >= 1}" th:href="@{/user/list}" class="btn btn-warning">Clear</a>
+            <a th:if="${!#strings.isEmpty(param.search) and #strings.length(param.search) >= 1}" th:href="@{/user/list}"
+               class="btn btn-warning">Clear</a>
         </form>
 
         <input type="button" class="btn btn-primary" value="Add user" style="width: 30%"
-               onclick="window.location.href='new'; return false;">
+               onclick="window.location.href='new'; return false;" sec:authorize="hasRole('ROLE_ADMIN')">
     </div>
     <table class="table table-hover">
         <thead>
-        <tr class="col justify-content-between">
+        <tr class="col justify-content-between"
+            th:with="userColumn = ${T(com.tom.javaspring.constant.UserSortColumn)}, sort = ${param.sort != null ? param.sort : 'id'}">
             <th class="col-1" scope="col">#</th>
-            <th class="col-8" scope="col">Username</th>
-            <th class="col-8" scope="col">Email</th>
+            <th class="col-3" scope="col">
+                <a th:href="@{list(sort=${userColumn.User_Name})}"
+                   th:classappend="${#strings.equals(sort, userColumn.User_Name)} ? 'text-primary' : 'text-dark'"
+                   class="text-decoration-none">Username</a>
+            </th>
+            <th class="col-3" scope="col">
+                <a th:href="@{list(sort=${userColumn.Email})}"
+                   th:classappend="${#strings.equals(sort, userColumn.Email)} ? 'text-primary' : 'text-dark'"
+                   class="text-decoration-none">Email</a>
+            </th>
+            <th class="col-1" scope="col">Enable</th>
+            <th class="col-1" scope="col">Roles</th>
+            <th class="col" scope="col">Image</th>
             <th class="col-3" scope="col">Actions</th>
         </tr>
         </thead>
@@ -39,7 +54,26 @@
             <th scope="row" th:text="${count.index + 1}"></th>
             <!--/*@thymesVar id="user" type="com.tom.javaspring.entity.UserEntity"*/-->
             <td th:text="${user.userName}"></td>
-            <td th:text="${user.password}"></td>
+            <td th:text="${user.email}"></td>
+            <td>
+                    <span th:if="${user.enabled}">
+                        <i class="bi bi-check-circle" style="color: blueviolet"></i>
+                        <small>Yes</small>
+                    </span>
+                    <span th:unless="${user.enabled}">
+                        <i class="bi bi-x-circle" style="color: red"></i>
+                        <small>No</small>
+                    </span>
+            </td>
+            <td>
+                <div th:each="role:${user.roles}">
+                    <span th:text="${role.name}"></span>
+                </div>
+            </td>
+            <td>
+                <img th:src="@{|/resources/images/user/${user.imageUrl}|}"
+                     alt="temp" style="height:3.5rem; width: 3.5rem; object-fit:cover;">
+            </td>
             <td>
                 <button type="button" class="btn btn-secondary">
                     <a th:href="@{/user/view/{id} (id = ${user.id})}"><i class="bi bi-eye text-warning"></i></a>
@@ -49,7 +83,8 @@
                     <a th:href="@{/user/edit/{id} (id = ${user.id})}"><i class="bi bi-pencil text-warning"></i></a>
                 </button>
 
-                <button th:onclick="|confirmDelete(${user.id})|" class="btn btn-danger" sec:authorize="hasRole('ROLE_ADMIN')"><i class="bi bi-trash3"></i></button>
+                <button th:onclick="|confirmDelete(${user.id})|" class="btn btn-danger"
+                        sec:authorize="hasRole('ROLE_ADMIN')"><i class="bi bi-trash3"></i></button>
             </td>
         </tr>
         </tbody>
@@ -76,21 +111,26 @@
                     </a>
                 </li>
                 <li class="page-item" th:classappend="${userParams.page == 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{list(page=${userParams.page - 1},sort=${userParams.sort},search=${userParams.search})}">
+                    <a class="page-link"
+                       th:href="@{list(page=${userParams.page - 1},sort=${userParams.sort},search=${userParams.search})}">
                         <i class="bi bi-chevron-left"></i>
                     </a>
                 </li>
-                <li class="page-item" th:classappend="${userParams.page == i} ? 'active'" th:each="i: ${#numbers.sequence(1, totalPages)}">
-                    <a class="page-link" th:href="@{list(page=${i},sort=${userParams.sort},search=${userParams.search})}"
+                <li class="page-item" th:classappend="${userParams.page == i} ? 'active'"
+                    th:each="i: ${#numbers.sequence(1, totalPages)}">
+                    <a class="page-link"
+                       th:href="@{list(page=${i},sort=${userParams.sort},search=${userParams.search})}"
                        th:text="${i}"></a>
                 </li>
                 <li class="page-item" th:classappend="${userParams.page == totalPages} ? 'disabled'">
-                    <a class="page-link" th:href="@{list(page=${userParams.page + 1},sort=${userParams.sort},search=${userParams.search})}">
+                    <a class="page-link"
+                       th:href="@{list(page=${userParams.page + 1},sort=${userParams.sort},search=${userParams.search})}">
                         <i class="bi bi-chevron-right"></i>
                     </a>
                 </li>
                 <li class="page-item" th:classappend="${userParams.page == totalPages} ? 'disabled'">
-                    <a class="page-link" th:href="@{list(page=${totalPages},sort=${userParams.sort},search=${userParams.search})}">
+                    <a class="page-link"
+                       th:href="@{list(page=${totalPages},sort=${userParams.sort},search=${userParams.search})}">
                         <i class="bi bi-chevron-double-right"></i>
                     </a>
                 </li>
@@ -98,7 +138,7 @@
         </nav>
     </div>
 
-    <form id="deleteForm" method="post"></form>
+    <form id="deleteForm" method="post" th:action="@{/user/delete/}"></form>
 
 </div>
 <script th:if="${message != null}" th:inline="javascript" layout:fragment="notify">

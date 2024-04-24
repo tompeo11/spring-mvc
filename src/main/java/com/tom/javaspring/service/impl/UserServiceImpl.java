@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public List<UserEntity> getUsers(UserParams userParams) {
         return userDAO.getUsers(userParams);
     }
@@ -42,29 +43,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public int getUserCount(UserParams userParams) {
         return userDAO.getUserCount(userParams);
     }
 
     @Override
     @Transactional
-    public void saveUser(UserEntity userEntity) {
+    public int saveUser(UserEntity userEntity) {
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-        Role role = roleDAO.findByName("ROLE_EMPLOYEE");
+        if (userEntity.getRoles() == null) {
+            Role role = roleDAO.findByName("ROLE_EMPLOYEE");
 
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
+            Set<Role> roles = new HashSet<>();
+            roles.add(role);
+            userEntity.setRoles(roles);
+        }
 
-        userEntity.setRoles(roles);
-        userDAO.saveUser(userEntity);
+
+        return userDAO.saveUser(userEntity);
     }
 
-    @Override
+    @Override   
+    @Transactional
     public UserEntity getById(int id) {
         return userDAO.getById(id);
     }
 
     @Override
+    @Transactional
     public void deleteUser(int id) {
         userDAO.deleteUser(id);
     }

@@ -1,12 +1,11 @@
 package com.tom.javaspring.entity;
 
-import com.tom.javaspring.validation.ValidEmail;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -32,6 +31,7 @@ public class UserEntity {
     @Column(name="email", length = 250)
     private String email;
 
+    private String imageUrl = "default.jpg";
 
     private boolean enabled = true;
 
@@ -39,5 +39,8 @@ public class UserEntity {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name="role_id"))
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
+
+    @Transient
+    private List<String> roleString;
 }

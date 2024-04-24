@@ -10,9 +10,9 @@
     <div layout:fragment="content">
         <h1>View customer</h1>
         <!--/*@thymesVar id="customer" type="com.tom.javaspring.entity.Customer"*/-->
-        <p th:text="${customer.firstName}"></p>
-        <p th:text="${customer.lastName}"></p>
-        <p th:text="${customer.email}"></p>
+        <p>First name: <span th:text="${customer.firstName}"></span></p>
+        <p>Last name: <span th:text="${customer.lastName}"></span></p>
+        <p>Email : <span th:text="${customer.email}"></span></p>
         <div class="d-flex justify-content-between">
             <button type="button" class="btn btn-secondary mt-4" style="width: 30%;"><a th:href="@{/customer/list}" class="text-decoration-none text-white">Back to list</a></button>
         </div>

@@ -1,6 +1,5 @@
 package com.tom.javaspring.service.impl;
 
-import com.tom.javaspring.dao.CustomerDAO;
 import com.tom.javaspring.dao.RoleDAO;
 import com.tom.javaspring.dto.RoleParams;
 import com.tom.javaspring.entity.Role;
@@ -13,17 +12,19 @@ import java.util.List;
 @Service
 public class RoleServiceImpl implements RoleService {
     private final RoleDAO roleDAO;
-
     public RoleServiceImpl(RoleDAO roleDAO) {
         this.roleDAO = roleDAO;
     }
-
 
     @Override
     @Transactional
     public List<Role> getRoles(RoleParams roleParams) {
         return roleDAO.getRoles(roleParams);
     }
+
+    @Override
+    @Transactional
+    public List<Role> getRoles() {return roleDAO.getRoles();}
 
     @Override
     @Transactional
@@ -47,5 +48,10 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public void deleteRole(int id) {
         roleDAO.deleteRole(id);
+    }
+
+    @Override
+    public Role getByName(String name) {
+        return roleDAO.findByName(name);
     }
 }

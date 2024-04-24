@@ -8,8 +8,7 @@ import java.util.List;
 public interface UserDAO {
     List<UserEntity> getUsers(UserParams userParams);
     int getUserCount(UserParams userParams);
-    void saveUser(UserEntity userEntity);
-
+    int saveUser(UserEntity userEntity);
     UserEntity getById(int id);
     void deleteUser(int id);
     UserEntity findByUserName(String userName);

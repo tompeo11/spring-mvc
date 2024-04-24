@@ -1,8 +1,8 @@
 package com.tom.javaspring.constant;
 
 public class CustomerSortColumn {
-    public static final String First_Name = "firstName";
-    public static final String Last_Name = "lastName";
-    public static final String Email = "email";
+    public static final String FIRST_NAME = "firstName";
+    public static final String LAST_NAME = "lastName";
+    public static final String EMAIL = "email";
 
 }

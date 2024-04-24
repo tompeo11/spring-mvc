@@ -43,13 +43,13 @@ public class CustomerDAOImpl implements CustomerDAO {
 
         if (sort != null && !sort.isEmpty()) {
             switch (sort) {
-                case CustomerSortColumn.First_Name:
+                case CustomerSortColumn.FIRST_NAME:
                     query.orderBy(builder.asc(root.get("firstName")));
                     break;
-                case CustomerSortColumn.Last_Name:
+                case CustomerSortColumn.LAST_NAME:
                     query.orderBy(builder.asc(root.get("lastName")));
                     break;
-                case CustomerSortColumn.Email:
+                case CustomerSortColumn.EMAIL:
                     query.orderBy(builder.asc(root.get("email")));
                     break;
                 default:

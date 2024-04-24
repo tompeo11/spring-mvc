@@ -10,8 +10,27 @@
     <div layout:fragment="content">
         <h1>View user</h1>
         <!--/*@thymesVar id="user" type="com.tom.javaspring.entity.UserEntity"*/-->
-        <p th:text="${user.userName}">
-        <p th:text="${user.enabled}"></p>
+        <div class="row">
+            <div class="col">
+                <p>Username: <span th:text="${user.userName}"></span></p>
+                <p>Email: <span th:text="${user.email}"></span></p>
+                <p>
+                    Enable:
+                    <span th:if="${user.enabled}">
+                        <small>Yes</small>
+                    </span>
+                    <span th:unless="${user.enabled}">
+                        <small>No</small>
+                    </span>
+                </p>
+            </div>
+
+            <div class="col">
+                <img th:if="${user.imageUrl == 'default.jpg'}" th:src="@{|/resources/images/user/default.jpg|}" alt="" style="height: 200px; width: 300px">
+                <img th:unless="${user.imageUrl == 'default.jpg'}" th:src="@{|/resources/images/user/${user.imageUrl}|}" alt="" style="height: 200px; width: 300px">
+            </div>
+        </div>
+
         <div class="d-flex justify-content-between">
             <button type="button" class="btn btn-secondary mt-4" style="width: 30%;"><a th:href="@{/user/list}" class="text-decoration-none text-white">Back to list</a></button>
         </div>

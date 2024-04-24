@@ -14,13 +14,13 @@
     <h1 th:if="${isUpdate == false}">Create user</h1>
 
     <!--/*@thymesVar id="user" type="com.tom.javaspring.entity.UserEntity"*/-->
-    <form th:action="@{/user/save}" th:object="${user}" method="post" style="width: 350px;">
+    <form th:action="@{/user/save}" th:object="${user}" method="post" style="width: 350px;" enctype="multipart/form-data">
         <input type="hidden" th:field="*{id}">
 
         <div class="form-floating mb-3">
             <input th:field="*{userName}" class="form-control" id="userName" placeholder="userName"/>
-            <label for="UserName">UserName</label>
-            <div class="invalid-feedback">UserName is required</div>
+            <label for="UserName">Username</label>
+            <div class="invalid-feedback">Username is required</div>
         </div>
 
         <div class="form-floating mb-3">
@@ -34,6 +34,47 @@
             <label for="email">Email</label>
             <div class="invalid-feedback">Email is required</div>
         </div>
+
+        <div class=" mb-3">
+            <input type="file" class="form-control" id="image" name="image" placeholder="imageUrl"/>
+        </div>
+
+        <div class="form-floating mb-3">
+            <div class="row p-3">
+                <label class="col-sm-3 col-form-label text-right">
+                    Roles
+                </label>
+                <div class="col-sm-9">
+                    <div th:each="role : ${roles}" class="form-check">
+                        <input th:field="*{roleString}" th:value="${role.name}" th:id="${role.id}" class="form-check-input" type="checkbox">
+                        <label th:text="${role.name}" th:for="${role.id}" class="form-check-label"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-floating mb-3">
+            <div class="row p-3">
+                <label class="col-sm-3 col-form-label text-right">
+                    Enabled
+                </label>
+                <div class="col-sm-9">
+                    <div class="form-check">
+                        <input th:field="*{enabled}" th:value="true" class="form-check-input" type="radio" id="enabled-yes">
+                        <label class="form-check-label" for="enabled-yes">
+                            Yes
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input th:field="*{enabled}" th:value="false" class="form-check-input" type="radio" id="enabled-no">
+                        <label class="form-check-label" for="enabled-no">
+                            No
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <div class="d-flex justify-content-end">
             <button type="submit" class="btn btn-primary btn-lg mt-4 me-4" style="width: 30%;">Save</button>

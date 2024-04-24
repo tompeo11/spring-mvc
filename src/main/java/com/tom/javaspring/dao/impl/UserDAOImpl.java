@@ -25,25 +25,6 @@ public class UserDAOImpl implements UserDAO {
         this.sessionFactory = sessionFactory;
     }
 
-
-    @Override
-    @Transactional
-    public UserEntity findByUserName(String userName) {
-        return sessionFactory.getCurrentSession()
-                .createQuery("from UserEntity where userName = :userName", UserEntity.class)
-                .setParameter("userName", userName)
-                .uniqueResult();
-    }
-
-    @Override
-    @Transactional
-    public UserEntity findByEmail(String email) {
-        return sessionFactory.getCurrentSession()
-                .createQuery("from UserEntity where email = :email", UserEntity.class)
-                .setParameter("email", email)
-                .uniqueResult();
-    }
-
     @Override
     public List<UserEntity> getUsers(UserParams userParams) {
         String search = userParams.getSearch();
@@ -117,10 +98,19 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void saveUser(UserEntity userEntity) {
+    public int saveUser(UserEntity userEntity) {
         Session currentSession = sessionFactory.getCurrentSession();
 
-        currentSession.saveOrUpdate(userEntity);
+        Object userId;
+
+        if (userEntity.getId() == 0) {
+            userId = currentSession.save(userEntity);
+        } else {
+            currentSession.update(userEntity);
+            userId = userEntity.getId();
+        }
+
+        return (int) userId;
     }
 
     @Override
@@ -131,6 +121,24 @@ public class UserDAOImpl implements UserDAO {
         theQuery.setParameter("id", id);
 
         return theQuery.getSingleResult();
+    }
+
+    @Override
+    @Transactional
+    public UserEntity findByUserName(String userName) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from UserEntity where userName = :userName", UserEntity.class)
+                .setParameter("userName", userName)
+                .uniqueResult();
+    }
+
+    @Override
+    @Transactional
+    public UserEntity findByEmail(String email) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from UserEntity where email = :email", UserEntity.class)
+                .setParameter("email", email)
+                .uniqueResult();
     }
 
     @Override

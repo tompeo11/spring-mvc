@@ -21,7 +21,7 @@
         </form>
 
         <input type="button" class="btn btn-primary" value="Add role" style="width: 30%"
-               onclick="window.location.href='new'; return false;">
+               onclick="window.location.href='new'; return false;" sec:authorize="hasRole('ROLE_ADMIN')">
     </div>
     <table class="table table-hover">
         <thead>

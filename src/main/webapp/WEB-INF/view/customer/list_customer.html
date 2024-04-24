@@ -21,22 +21,27 @@
         </form>
 
         <input type="button" class="btn btn-primary" value="Add customer" style="width: 30%"
-               onclick="window.location.href='new'; return false;">
+               onclick="window.location.href='new'; return false;" sec:authorize="hasRole('ROLE_ADMIN')">
     </div>
     <table class="table table-hover">
         <thead>
-        <tr class="col justify-content-between">
+        <tr class="col justify-content-between" th:with="cusColumn = ${T(com.tom.javaspring.constant.CustomerSortColumn)}, sort = ${param.sort != null ? param.sort : 'id'}">
             <th class="col-1" scope="col">#</th>
-            <!--/*@thymesVar id="customerSortColumn" type="com.tom.javaspring.constant.CustomerSortColumn"*/-->
             <th class="col-2" scope="col">
-                <a th:href="@{list(sort=${customerSortColumn.First_Name})}" class="text-decoration-none">First</a>
+                <a th:href="@{list(sort=${cusColumn.FIRST_NAME})}"
+                   th:classappend="${#strings.equals(sort, cusColumn.FIRST_NAME)} ? 'text-primary' : 'text-dark'"
+                   class="text-decoration-none">First</a>
             </th>
 
             <th class="col-2" scope="col">
-                <a th:href="@{list(sort=${customerSortColumn.Last_Name})}" class="text-decoration-none">Last</a>
+                <a th:href="@{list(sort=${cusColumn.LAST_NAME})}"
+                   th:classappend="${#strings.equals(sort, cusColumn.LAST_NAME)} ? 'text-primary' : 'text-dark'"
+                   class="text-decoration-none">Last</a>
             </th>
             <th class="col-4" scope="col">
-                <a th:href="@{list(sort=${customerSortColumn.Email})}" class="text-decoration-none">Email</a>
+                <a th:href="@{list(sort=${cusColumn.EMAIL})}"
+                   th:classappend="${#strings.equals(sort, cusColumn.EMAIL)} ? 'text-primary' : 'text-dark'"
+                   class="text-decoration-none">Email</a>
             </th>
             <th class="col-3" scope="col">Actions</th>
         </tr>

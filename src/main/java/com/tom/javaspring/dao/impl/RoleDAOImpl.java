@@ -69,6 +69,15 @@ public class RoleDAOImpl implements RoleDAO {
     }
 
     @Override
+    public List<Role> getRoles() {
+        Session currentSession = sessionFactory.getCurrentSession();
+
+        Query<Role> theQuery = currentSession.createQuery("from Role", Role.class);
+
+        return theQuery.getResultList();
+    }
+
+    @Override
     public int getRoleCount(RoleParams roleParams) {
         String search = roleParams.getSearch();
 
@@ -116,10 +125,8 @@ public class RoleDAOImpl implements RoleDAO {
     @Override
     public void deleteRole(int id) {
         Session currentSession = sessionFactory.getCurrentSession();
-
-        Query<Role> theQuery = currentSession.createQuery("delete from Role where id = :id");
-        theQuery.setParameter("id", id);
-        theQuery.executeUpdate();
+        Role role = getById(id);
+        currentSession.delete(role);
     }
 
     @Override

@@ -20,7 +20,8 @@
                              class="img-fluid" alt="Sample image">
                     </div>
                     <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                        <form th:action="@{/register}" th:object="${registeredUser}" method="post">
+                        <!--/*@thymesVar id="userDto" type="com.tom.javaspring.dto.UserDto"*/-->
+                        <form th:action="@{/register}" th:object="${userDto}" method="post">
                             <div class="divider d-flex align-items-center my-4"><h2 class="text-center fw-bold mx-3 mb-0 text-primary">Register</h2></div>
 
                             <div class="form-floating mb-4">
@@ -37,7 +38,7 @@
 
                             <div class="form-floating mb-3">
                                 <input th:field="*{confirmPassword}" type="password" id="confirmPassword" class="form-control form-control-lg" name="confirmPassword" placeholder="confirmPassword" />
-                                <label class="form-label" for="password">Confirm password</label>
+                                <label class="form-label" for="confirmPassword">Confirm password</label>
                                 <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="small text-danger"></span>
                             </div>
 

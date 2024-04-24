@@ -33,8 +33,6 @@ public class CustomerController {
         theModel.addAttribute("totalPages", totalPages);
         theModel.addAttribute("customers", theCustomers);
 
-        theModel.addAttribute("customerSortColumn", CustomerSortColumn.class);
-
         return "/customer/list_customer";
     }
 

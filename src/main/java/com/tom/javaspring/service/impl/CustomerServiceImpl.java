@@ -12,7 +12,6 @@ import java.util.List;
 @Service
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerDAO customerDAO;
-
     public CustomerServiceImpl(CustomerDAO customerDAO) {
         this.customerDAO = customerDAO;
     }

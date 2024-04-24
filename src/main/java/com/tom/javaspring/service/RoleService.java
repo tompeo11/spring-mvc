@@ -7,12 +7,10 @@ import java.util.List;
 
 public interface RoleService {
     List<Role> getRoles(RoleParams roleParams);
-
+    List<Role> getRoles();
     int getRoleCount(RoleParams roleParams);
-
     void saveRole(Role role);
-
     Role getById(int id);
-
     void deleteRole(int id);
+    Role getByName(String name);
 }

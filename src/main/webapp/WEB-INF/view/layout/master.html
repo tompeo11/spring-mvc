@@ -11,7 +11,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-body-secondary">
-    <div class="container-fluid">
+    <div class="container-fluid d-flex">
         <a class="navbar-brand" href="#">Navbar</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +46,7 @@
 
             <div class="nav-item d-flex align-content-center justify-content-center ms-auto">
                 <div class="me-3">
-                    <p class="mb-0" style="line-height: 43px">Welcome, <span sec:authentication="name"></span></p>
+                    <p class="mb-0" style="line-height: 43px">Welcome, <a th:href="@{/profile}" sec:authentication="name" class="text-decoration-none"></a></p>
                 </div>
 
                 <form th:action="@{/logout}" method="post">
